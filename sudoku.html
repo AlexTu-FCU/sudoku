@@ -121,7 +121,6 @@
   .cell.given { color: #2c3e50; font-weight: 700; background: #ecf0f1; }
   .cell.selected { background: #aed6f1 !important; }
   .cell.peer { background: #d6eaf8; }
-  .cell.same-number { background: #a3e4d7; }
   .cell.conflict { background: #f5b7b1 !important; color: #c0392b; }
 
   /* 3x3 粗框分隔線 */
@@ -339,7 +338,6 @@
   }
   .color-selected   { background: #aed6f1; }
   .color-peer       { background: #d6eaf8; }
-  .color-same       { background: #a3e4d7; }
   .color-conflict   { background: #f5b7b1; color: #c0392b; }
   .color-given      { background: #ecf0f1; font-weight: bold; }
 
@@ -431,7 +429,6 @@
       <div class="color-grid">
         <div class="color-item color-selected">目前選取格</div>
         <div class="color-item color-peer">同列 / 行 / 宮</div>
-        <div class="color-item color-same">相同數字</div>
         <div class="color-item color-conflict">衝突格（紅）</div>
         <div class="color-item color-given">原始題目格</div>
       </div>
@@ -680,7 +677,7 @@ function render() {
       const given = state.puzzle[r][c] !== 0;
 
       cell.classList.toggle('given', given);
-      cell.classList.remove('selected', 'peer', 'same-number', 'conflict');
+      cell.classList.remove('selected', 'peer', 'conflict');
 
       if (val !== 0) {
         cell.textContent = val;
@@ -707,7 +704,6 @@ function render() {
 function applyHighlights() {
   if (!state.selected) return;
   const { r: sr, c: sc } = state.selected;
-  const selVal = state.current[sr][sc];
 
   for (let r = 0; r < SIZE; r++) {
     for (let c = 0; c < SIZE; c++) {
@@ -717,7 +713,6 @@ function applyHighlights() {
       const sameBox = Math.floor(r / BOX) === Math.floor(sr / BOX)
                    && Math.floor(c / BOX) === Math.floor(sc / BOX);
       if (sameRow || sameCol || sameBox) cell.classList.add('peer');
-      if (selVal !== 0 && state.current[r][c] === selVal) cell.classList.add('same-number');
     }
   }
   boardEl.children[sr * SIZE + sc].classList.add('selected');
